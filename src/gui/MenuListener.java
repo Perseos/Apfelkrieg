@@ -42,16 +42,25 @@ public class MenuListener implements ActionListener{
 	 * When this method gets called, it will cause different reactions based on the soure of the <code>ActionEvent</code>
 	 */
 	public void actionPerformed(ActionEvent e) {
-		if(e.getSource() == gui.menu.start) start();	
-		else if(e.getSource() == gui.menu.charsAI) charsAI();
-		else if(e.getSource() == gui.menu.outFiles) outFiles();
-		else if(e.getSource() == gui.menu.showSim) showSim();
+		if(e.getSource() == gui.menu.start) start();
+		else if(e.getSource() == gui.menu.advanced) advanced();
+		//else if(e.getSource() == gui.menu.charsAI) charsAI();
+		else if(e.getSource() == gui.menu.md.outFiles) outFiles();
+		else if(e.getSource() == gui.menu.showBoards) showSim();
 		else if(e.getSource() == gui.menu.showGraphs) showGraphs();
-		else if(e.getSource() == gui.menu.file1Browse) fileBrowse(0);
-		else if(e.getSource() == gui.menu.file2Browse) fileBrowse(1);
+		else if(e.getSource() == gui.menu.md.file1Browse) fileBrowse(0);
+		else if(e.getSource() == gui.menu.md.file2Browse) fileBrowse(1);
+		else if(e.getSource() == gui.menu.md.cancel) gui.menu.md.dispose();
 		else if(e.getSource() == gui.menu.quit) System.exit(0);
 	}
 	
+	/**
+	 * Opens up the <code>JDialog</code> for advanced settings
+	 */
+	public void advanced() {
+		gui.menu.md.initUI();
+	}
+
 	/**
 	 * Starts up the Applewar-simulation.
 	 * After checking through preferences, the UI will either show a <code>PitchUI</code> or a <code>ProgressUI</code>.
@@ -81,7 +90,6 @@ public class MenuListener implements ActionListener{
 	public void charsAI(){
 		gui.menu.doSim = !gui.menu.doSim;
 		//toggles
-		gui.menu.refreshUI();
 	}
 	
 	/**
@@ -90,7 +98,6 @@ public class MenuListener implements ActionListener{
 	public void outFiles(){
 		gui.menu.doOutFiles = !gui.menu.doOutFiles;
 		//toggles
-		gui.menu.refreshUI();
 	}
 	
 	/**
@@ -99,7 +106,6 @@ public class MenuListener implements ActionListener{
 	public void showSim(){
 		gui.menu.doSim = !gui.menu.doSim;
 		//toggles
-		gui.menu.refreshUI();
 	}
 	
 	/**
@@ -115,21 +121,22 @@ public class MenuListener implements ActionListener{
 	 * @param id Because there is a button to choose an output file for each of the players, the source-button is specified with this parameter.
 	 */
 	public void fileBrowse(int id){
-		if(id == 0) gui.menu.fc.setDialogTitle(gui.menu.fileChoose1);
-		else gui.menu.fc.setDialogTitle(gui.menu.fileChoose2);
-		int returnVal = gui.menu.fc.showOpenDialog(new JFrame());
+		MenuDialog md = gui.menu.md;
+		if(id == 0) md.fc.setDialogTitle(md.fileChoose1);
+		else md.fc.setDialogTitle(md.fileChoose2);
+		int returnVal = md.fc.showOpenDialog(new JFrame());
 		if (returnVal == JFileChooser.APPROVE_OPTION){
 			if(id == 0){
-				gui.menu.outFile1.setText(gui.menu.fc.getSelectedFile().getName());
-				gui.menu.outFile1.setForeground(Color.BLACK);
+				md.outFile1.setText(md.fc.getSelectedFile().getName());
+				md.outFile1.setForeground(Color.BLACK);
 			}
 			else{
-				gui.menu.outFile2.setText(gui.menu.fc.getSelectedFile().getName());
-				gui.menu.outFile2.setForeground(Color.BLACK);
+				md.outFile2.setText(md.fc.getSelectedFile().getName());
+				md.outFile2.setForeground(Color.BLACK);
 
 			}
-			gui.menu.file[id] = gui.menu.fc.getSelectedFile();
+			gui.menu.file[id] = md.fc.getSelectedFile();
 		}
-		gui.menu.refreshUI();
+		md.refreshUI();
 	}
 }

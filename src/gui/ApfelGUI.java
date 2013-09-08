@@ -96,7 +96,7 @@ public class ApfelGUI {
 	 * @param totalMoves the total steps of the simulation
 	 */
 	public void setTotalMoves(int totalMoves) {
-		graph.setTotalMoves(totalMoves, menu.thomasApplesN, menu.oldApplesN);
+		//graph.setTotalMoves(totalMoves, menu.thomasApplesN, menu.oldApplesN);
 		prog.setTotalMoves(totalMoves);
 	}
 	

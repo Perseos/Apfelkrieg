@@ -38,6 +38,7 @@ public class Lang_FR {
 	public static String stepL = "Coup";
 	public static String done = "Fini!";
 	public static String nameL = "Joueur";
+	public static String cancel = "Annuller";
 	//error-messages
 	public static String appleOverflow = "<HTML>To prevent the boards from overflowing,<BR/>" +
 			"only a total of 100 apples are allowed.</HTML>";
