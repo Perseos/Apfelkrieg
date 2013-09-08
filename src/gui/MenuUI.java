@@ -54,7 +54,7 @@ public class MenuUI extends JPanel{
 	JSpinner numberSteps;
 	JLabel numberStepsL;
 	
-	File[] file = new File[2];
+	public File[] file = new File[2];
 	
 	public int numberStepsN, thomasApplesN, oldApplesN, vThomasN, vOldN;
 	
@@ -187,15 +187,15 @@ public class MenuUI extends JPanel{
 	public boolean checkPrefs(){
 		thomasApplesValid = oldApplesValid = path1Valid = path2Valid = true;
 		if(file[0] == null && doOutFiles){
-			outFile1.setForeground(Color.RED);
+			md.outFile1.setForeground(Color.RED);
 			path1Valid = false;
 		}
 		if(file[1] == null && doOutFiles){
-			outFile2.setForeground(Color.RED);
+			md.outFile2.setForeground(Color.RED);
 			path2Valid = false;
 		}
-		if(!path1Valid || !path2Valid){
-			tp.setSelectedComponent(outPane);
+		if(!path1Valid || !path2Valid && doOutFiles){
+			md.initUI();
 			return false;
 		}
  		if(doOutFiles && file[0].equals(file[1])){
@@ -206,11 +206,15 @@ public class MenuUI extends JPanel{
 					 JOptionPane.WARNING_MESSAGE);
 			return false;
 		}
-		numberStepsN = (Integer) numberSteps.getValue();
-		thomasApplesN = (Integer) thomasApples.getValue();
-		oldApplesN = (Integer) oldApples.getValue();
-		vThomasN = (Integer) vThomas.getValue();
-		vOldN = (Integer) vOld.getValue();
+ 		if(md.initiated){
+			numberStepsN = (Integer) numberSteps.getValue();
+			thomasApplesN = (Integer) md.thomasApples.getValue();
+			oldApplesN = (Integer) md.oldApples.getValue();
+			vThomasN = (Integer) md.vThomas.getValue();
+			vOldN = (Integer) md.vOld.getValue();
+ 		} else {
+ 			setDefaultValues();
+ 		}
 		
 		if(thomasApplesN + oldApplesN > 100){
 				thomasApplesValid = oldApplesValid = false;
@@ -220,8 +224,18 @@ public class MenuUI extends JPanel{
 						 "Too many apples",
 						 JOptionPane.WARNING_MESSAGE);
 		}
-		refreshUI();
+		if(md.initiated) md.refreshUI();
 		return (thomasApplesValid && oldApplesValid && path1Valid && path2Valid);
+	}
+	
+	public void setDefaultValues() {
+		doOutFiles = false;
+		file[0] = file[1] = null;
+		numberStepsN = (Integer) numberSteps.getValue();
+		thomasApplesN = 10;
+		oldApplesN = 5;
+		vThomasN = 1;
+		vOldN = -1;
 	}
 	/*ApfelGUI a;
 	

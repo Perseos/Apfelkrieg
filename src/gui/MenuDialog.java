@@ -3,11 +3,13 @@ package gui;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
+import java.awt.Font;
 import java.io.File;
 import java.util.Locale;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JDialog;
@@ -41,11 +43,14 @@ public class MenuDialog extends JDialog{
 	JCheckBox outFiles;
 	JButton file1Browse, file2Browse, cancel, ok;
 	JFileChooser fc;
+	ImageIcon textIcon;
 	
 	String
 		nameOld, applesL, vL, vTip,
 		outFilesL, outFilesTip, outFile1L, outFile2L, fileBrowse, fileChoose1, fileChoose2,
 		cancelL;
+	
+	public boolean initiated;
 	/**
 	 * Class constructor.
 	 * @param menu Later used to transfer output
@@ -124,8 +129,9 @@ public class MenuDialog extends JDialog{
 		fc.setMultiSelectionEnabled(false);
 		fc.setFileHidingEnabled(true);
 		fc.addChoosableFileFilter(filter);
-				//txtIcon = new ImageIcon("/Users/daniel/Downloads/plain_text_icon.png", "see file name");
-				
+		textIcon = new ImageIcon("/Users/daniel/Downloads/plain_text_icon.png", "a plain text icon");
+		System.out.println("hell yeah");
+		
 		//setting up rulesP's contents
 		//creating local JPanels
 		JPanel cTable, c1, c2, nameP1, nameP2, applesP1, applesP2, vPane1, vPane2;
@@ -192,6 +198,9 @@ public class MenuDialog extends JDialog{
 		oldApples.setPreferredSize(d);
 		vThomas.setPreferredSize(d);
 		vOld.setPreferredSize(d);
+		//Setting font of headlines
+		thomasL.setFont(new Font("Display", Font.BOLD, 14));
+		oldL.setFont(new Font("Display", Font.BOLD, 14));
 		//filling the JPanels
 		nameP1.add(thomasL);
 		nameP2.add(oldL);
@@ -233,9 +242,9 @@ public class MenuDialog extends JDialog{
 		//setting up low-level components
 		outFiles = new JCheckBox(outFilesL);
 		file1Browse = new JButton(fileBrowse);
-		outFile1 = new JLabel(outFile1L);
+		outFile1 = new JLabel(outFile1L, textIcon, JLabel.CENTER);
 		file2Browse = new JButton(fileBrowse);
-		outFile2 = new JLabel(outFile2L);
+		outFile2 = new JLabel(outFile1L, textIcon, JLabel.CENTER);
 		
 		//adding ActionListener to them
 		outFiles.addActionListener(menu.ml);
@@ -255,6 +264,7 @@ public class MenuDialog extends JDialog{
 		cancel = new JButton(cancelL);
 		cancel.addActionListener(menu.ml);
 		ok = new JButton("OK");
+		ok.addActionListener(menu.ml);
 		
 		//adding components to rulesP
 		rulesP = new JPanel();
@@ -287,12 +297,13 @@ public class MenuDialog extends JDialog{
 		cp.add(new JSeparator(JSeparator.HORIZONTAL));
 		cp.add(fileOutputP);
 		cp.add(Box.createVerticalGlue());
-		cp.add(buttonP);
+		//cp.add(buttonP);
 		
 		refreshUI();
 		setMinimumSize(new Dimension(510, 280));
 		setSize(520, 350);
 		setVisible(true);
+		initiated = true;
 	}
 
 	public void refreshUI() {

@@ -50,10 +50,16 @@ public class MenuListener implements ActionListener{
 		else if(e.getSource() == gui.menu.showGraphs) showGraphs();
 		else if(e.getSource() == gui.menu.md.file1Browse) fileBrowse(0);
 		else if(e.getSource() == gui.menu.md.file2Browse) fileBrowse(1);
-		else if(e.getSource() == gui.menu.md.cancel) gui.menu.md.dispose();
+		else if(e.getSource() == gui.menu.md.cancel) cancel();
+		else if(e.getSource() == gui.menu.md.ok) gui.menu.md.dispose();
 		else if(e.getSource() == gui.menu.quit) System.exit(0);
 	}
 	
+	private void cancel() {
+		gui.menu.setDefaultValues();
+		gui.menu.md.dispose();
+	}
+
 	/**
 	 * Opens up the <code>JDialog</code> for advanced settings
 	 */
@@ -98,7 +104,9 @@ public class MenuListener implements ActionListener{
 	public void outFiles(){
 		gui.menu.doOutFiles = !gui.menu.doOutFiles;
 		//toggles
+		if(gui.menu.md.initiated) gui.menu.md.refreshUI();
 	}
+	
 	
 	/**
 	 * Toggles the option of showing the Applewar-boards.
