@@ -1,5 +1,6 @@
 package gui;
 
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
@@ -136,7 +137,11 @@ public class ProgressUI extends JPanel{
 				gui.drawUI(ApfelGUI.MENU);
 			}
 		});
+		
+		p.removeAll();
 		p.add(restart);
+		p.add(quit);
+		p.add(Box.createRigidArea(new Dimension(55, 0)));
 		validate();
 	}
 }
