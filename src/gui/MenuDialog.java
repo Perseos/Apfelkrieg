@@ -129,8 +129,7 @@ public class MenuDialog extends JDialog{
 		fc.setMultiSelectionEnabled(false);
 		fc.setFileHidingEnabled(true);
 		fc.addChoosableFileFilter(filter);
-		textIcon = new ImageIcon("/Users/daniel/Downloads/plain_text_icon.png", "a plain text icon");
-		System.out.println("hell yeah");
+		textIcon = new ImageIcon("/Users/daniel/workspace/Apfelkrieg_final/resources/plain_text_icon.png", "a plain text icon");
 		
 		//setting up rulesP's contents
 		//creating local JPanels
@@ -244,7 +243,7 @@ public class MenuDialog extends JDialog{
 		file1Browse = new JButton(fileBrowse);
 		outFile1 = new JLabel(outFile1L, textIcon, JLabel.CENTER);
 		file2Browse = new JButton(fileBrowse);
-		outFile2 = new JLabel(outFile1L, textIcon, JLabel.CENTER);
+		outFile2 = new JLabel(outFile2L, textIcon, JLabel.CENTER);
 		
 		//adding ActionListener to them
 		outFiles.addActionListener(menu.ml);
@@ -297,7 +296,7 @@ public class MenuDialog extends JDialog{
 		cp.add(new JSeparator(JSeparator.HORIZONTAL));
 		cp.add(fileOutputP);
 		cp.add(Box.createVerticalGlue());
-		//cp.add(buttonP);
+		cp.add(buttonP);
 		
 		refreshUI();
 		setMinimumSize(new Dimension(510, 280));

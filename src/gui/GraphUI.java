@@ -5,9 +5,12 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.Locale;
 
 import javax.swing.BoxLayout;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -25,21 +28,25 @@ import lang.*;
 public class GraphUI extends JPanel{
 	private static final long serialVersionUID = 1L;
 	Garden[] garden;
+	ApfelGUI gui;
+	
 	int currentMoves = 0, maxApples, totalMoves, currentPlayer, movesPerX, xPerMove, yAmp = 99999;
 	boolean skipMoves;
 	byte[][] values;
-	String applesL, nameOld, title;
+	String applesL, nameOld, title, restartL;
 	
 	JFrame w;
-	JPanel graphP, captionP;
+	JPanel graphP, bottomP;
 	JLabel thomasL, oldL;
+	JButton restart;
 	
 	/**
 	 * Class constructor.
 	 * @param window The application's window. Used to set the title and size of it.
 	 */
-	public GraphUI(JFrame window) {
-		w = window;
+	public GraphUI(ApfelGUI gui, JFrame w) {
+		this.gui = gui;
+		this.w = w;
 	}
 	
 	/**
@@ -51,14 +58,17 @@ public class GraphUI extends JPanel{
 			nameOld = Lang_GER.nameOld;
 			applesL = Lang_GER.applesL;
 			title = Lang_GER.graphWindow;
+			restartL = Lang_GER.setUpWindow;
 		} else if(Locale.getDefault() == Locale.FRENCH || Locale.getDefault() == Locale.FRANCE){
 			nameOld = Lang_FR.nameOld;
 			applesL = Lang_FR.applesL;
 			title = Lang_FR.graphWindow;
+			restartL = Lang_FR.setUpWindow;
 		} else {
 			nameOld = Lang_EN.nameOld;
 			applesL = Lang_EN.applesL;
 			title = Lang_EN.graphWindow;
+			restartL = Lang_EN.setUpWindow;
 		}
 		//initiating the graph-component
 		graphP = new JPanel(){
@@ -123,18 +133,30 @@ public class GraphUI extends JPanel{
 		};
 		graphP.setAlignmentX(Component.CENTER_ALIGNMENT);
 		//...and its caption
-		captionP = new JPanel();
-		captionP.setLayout(new BoxLayout(captionP, BoxLayout.Y_AXIS));
+		bottomP = new JPanel();
+		bottomP.setLayout(new BoxLayout(bottomP, BoxLayout.Y_AXIS));
+		
 		thomasL = new JLabel("<HTML>&#9473;&nbsp;Thomas</HTML>");
 		thomasL.setForeground(Color.RED);
+		
 		oldL = new JLabel("<HTML>&#9473;&nbsp;" + nameOld);
 		oldL.setForeground(Color.BLUE);
-		captionP.add(thomasL);
-		captionP.add(oldL);
+		
+		restart = new JButton(restartL);
+		restart.addActionListener(new ActionListener(){
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				gui.drawUI(ApfelGUI.MENU);
+			}
+		});
+		
+		bottomP.add(thomasL);
+		bottomP.add(oldL);
+		bottomP.add(restart);
 		//setting up myself
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		add(graphP);
-		add(captionP);
+		add(bottomP);
 		//setting up window
 		w.setTitle(title);
 		w.setVisible(true);

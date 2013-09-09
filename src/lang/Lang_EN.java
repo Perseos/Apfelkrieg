@@ -27,6 +27,7 @@ public class Lang_EN {
 	public static String simTip = "Show the boards live during the Simulation";
 	//window-titles
 	public static String setUpWindow = "New Simulation";
+	public static String advancedDialog = "Advanced Options";
 	public static String pitchWindow = "Applewar-Board";
 	public static String progressWindow = "Simulation running...";
 	public static String graphWindow = "Results";

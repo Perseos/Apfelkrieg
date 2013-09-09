@@ -26,6 +26,7 @@ public class Lang_GER {
 	public static String simTip = "Während Simulation live Spielfelder anzeigen";
 	//window-titles
 	public static String setUpWindow = "Neue Simulation";
+	public static String advancedDialog = "Erweiterte Einstellungen";
 	public static String pitchWindow = "Apfelkrieg-Spielfeld";
 	public static String progressWindow = "Simulation läuft...";
 	public static String graphWindow = "Auswertung";

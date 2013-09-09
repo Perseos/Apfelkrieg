@@ -56,6 +56,10 @@ public class Apfelkrieg{
 				pw1.close();
 				pw2.close();
 			}
+			if(!doGraph){
+				if(doBoards) gui.pitch.addRestartButton();
+				else gui.prog.addRestartButton();
+			}
 		}
 	}
 	

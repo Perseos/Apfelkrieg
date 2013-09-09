@@ -52,14 +52,16 @@ public class MenuUI extends JPanel{
 	JButton advanced, start, quit;
 	JCheckBox showBoards, showGraphs;
 	JSpinner numberSteps;
-	JLabel numberStepsL;
+	JLabel numberStepsL, boardL, graphsL;
+	ImageIcon gameboardIcon, graphsIcon;
 	
 	public File[] file = new File[2];
 	
 	public int numberStepsN, thomasApplesN, oldApplesN, vThomasN, vOldN;
 	
 	public boolean 
-		doAI,doOutFiles, doSim, doGraphs ,
+		initiated,
+		doAI,doOutFiles, doSim, doGraphs,
 		done, stepsValid, thomasApplesValid, oldApplesValid, vThomasValid, vOldValid, 
 		path1Valid, path2Valid;
 	
@@ -82,6 +84,10 @@ public class MenuUI extends JPanel{
 	 * Initiates the user interface.
 	 */
 	public void initUI() {
+		if(initiated){
+			w.setSize(500, 200);
+			return;
+		}
 		//setting self up
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		
@@ -95,6 +101,7 @@ public class MenuUI extends JPanel{
 			boardsTip = Lang_GER.simTip;
 			noStepsL = Lang_GER.numberStepsL;
 			quitL = Lang_GER.quit;
+			advancedL = Lang_GER.advancedDialog;
 			startL = Lang_GER.start;
 		 } else if(Locale.getDefault() == Locale.FRENCH || Locale.getDefault() == Locale.FRANCE){
 			showGraphsL = Lang_FR.showGraphs;
@@ -102,6 +109,7 @@ public class MenuUI extends JPanel{
 			showBoardsL = Lang_FR.showSim;
 			boardsTip = Lang_FR.simTip;
 			noStepsL = Lang_FR.numberStepsL;
+			advancedL = Lang_FR.advancedDialog;
 			quitL = Lang_FR.quit;
 			startL = Lang_FR.start;
 		 } else {
@@ -110,6 +118,7 @@ public class MenuUI extends JPanel{
 			showBoardsL = Lang_EN.showSim;
 			boardsTip = Lang_EN.simTip;
 			noStepsL = Lang_EN.numberStepsL;
+			advancedL = Lang_EN.advancedDialog;
 			quitL = Lang_EN.quit;
 			startL = Lang_EN.start;	 
 		 }
@@ -117,7 +126,10 @@ public class MenuUI extends JPanel{
 		ml = new MenuListener(gui);
 		
 		//setting up low-level components
-		advanced = new JButton("Advanced Options");
+		gameboardIcon = new ImageIcon("/Users/daniel/workspace/Apfelkrieg_final/resources/gameboard.png", "Gameboard");
+		graphsIcon = new ImageIcon("/Users/daniel/workspace/Apfelkrieg_final/resources/graphs.png", "Graphs");
+		
+		advanced = new JButton(advancedL);
 		start = new JButton(startL);
 		quit = new JButton(quitL);
 		
@@ -135,7 +147,12 @@ public class MenuUI extends JPanel{
 		numberSteps = new JSpinner(new SpinnerNumberModel(21, 0, 51000000, 1));
 		numberStepsL = new JLabel(noStepsL);
 		
+		boardL = new JLabel(gameboardIcon);
+		graphsL = new JLabel(graphsIcon);
+		
+		showBoardsP.add(boardL);
 		showBoardsP.add(showBoards);
+		showGraphsP.add(graphsL);
 		showGraphsP.add(showGraphs);
 		numberStepsP.add(numberSteps);
 		numberStepsP.add(numberStepsL);
@@ -175,8 +192,9 @@ public class MenuUI extends JPanel{
 		//setting up window
 		w.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		w.setVisible(true);
-		w.setSize(420, 200);
-		w.setMinimumSize(new Dimension(410, 130));	
+		w.setSize(500, 200);
+		w.setMinimumSize(new Dimension(410, 140));	
+		initiated = true;
 	}
 	
 	/**
