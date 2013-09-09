@@ -1,10 +1,8 @@
 package gui;
 
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
-import java.awt.Font;
 import java.awt.GridLayout;
 import java.io.File;
 import java.util.Locale;
@@ -14,27 +12,16 @@ import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
-import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JProgressBar;
-import javax.swing.JSeparator;
-import javax.swing.JSlider;
 import javax.swing.JSpinner;
-import javax.swing.JTabbedPane;
 import javax.swing.SpinnerNumberModel;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
-import javax.swing.filechooser.FileFilter;
 
 import lang.Lang_EN;
 import lang.Lang_FR;
 import lang.Lang_GER;
-
-import main.Garden;
-import main.Player;
 
 /**
  * This is the surface for setting up a new simulation.
