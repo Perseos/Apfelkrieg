@@ -40,13 +40,13 @@ public class MenuDialog extends JDialog{
 	JLabel 
 		thomasL, oldL, thomasApplesL, oldApplesL, vThomasL, vOldL,
 		outFile1, outFile2;
-	JCheckBox outFiles;
+	JCheckBox outFiles, playersAI;
 	JButton file1Browse, file2Browse, cancel, ok;
 	JFileChooser fc;
 	ImageIcon textIcon;
 	
 	String
-		nameOld, applesL, vL, vTip,
+		nameOld, applesL, vL, vTip, charsAI, aiTip,
 		outFilesL, outFilesTip, outFile1L, outFile2L, fileBrowse, fileChoose1, fileChoose2,
 		cancelL;
 	
@@ -69,6 +69,8 @@ public class MenuDialog extends JDialog{
 			applesL = Lang_GER.applesL;
 			vL = Lang_GER.vL;
 			vTip = Lang_GER.vTip;
+			charsAI = Lang_GER.charsAI;
+			aiTip = Lang_GER.aiTip;
 			outFilesL = Lang_GER.outFiles;
 			outFilesTip = Lang_GER.outFilesTip;
 			outFile1L = Lang_GER.outFile1;
@@ -82,6 +84,8 @@ public class MenuDialog extends JDialog{
 	 		applesL = Lang_FR.applesL;
 	 		vL = Lang_FR.vL;
 	 		vTip = Lang_FR.vTip;
+	 		charsAI = Lang_FR.charsAI;
+			aiTip = Lang_FR.aiTip;
 	 		outFilesL = Lang_FR.outFiles;
 	 		outFilesTip = Lang_FR.outFilesTip;
 	 		outFile1L = Lang_FR.outFile1;
@@ -95,6 +99,8 @@ public class MenuDialog extends JDialog{
 			applesL = Lang_EN.applesL;
 			vL = Lang_EN.vL;
 			vTip = Lang_EN.vTip;
+			charsAI = Lang_EN.charsAI;
+			aiTip = Lang_EN.aiTip;
 			outFilesL = Lang_EN.outFiles;
 			outFilesTip = Lang_EN.outFilesTip;
 			outFile1L = Lang_EN.outFile1;
@@ -133,7 +139,7 @@ public class MenuDialog extends JDialog{
 		
 		//setting up rulesP's contents
 		//creating local JPanels
-		JPanel cTable, c1, c2, nameP1, nameP2, applesP1, applesP2, vPane1, vPane2;
+		JPanel cTable, c1, c2, nameP1, nameP2, applesP1, applesP2, vPane1, vPane2, aiPane;
 		cTable = new JPanel();
 		nameP1 = new JPanel();
 		nameP2 = new JPanel();
@@ -143,9 +149,10 @@ public class MenuDialog extends JDialog{
 		applesP2 = new JPanel();
 		vPane1 = new JPanel();
 		vPane2 = new JPanel();
+		aiPane = new JPanel();
 		//layouts, sizes and opacity
 		cTable.setLayout(new GridLayout(1, 2));
-		cTable.setPreferredSize(new Dimension(500, 100));
+		cTable.setMinimumSize(new Dimension(460, 120));
 		cTable.setOpaque(false);
 		
 		nameP1.setPreferredSize(new Dimension(250, 30));
@@ -180,6 +187,9 @@ public class MenuDialog extends JDialog{
 		vPane2.setPreferredSize(new Dimension(250, 30));
 		vPane2.setOpaque(false);
 		
+		aiPane.setLayout(new FlowLayout(FlowLayout.LEFT));
+		aiPane.setPreferredSize(new Dimension(500, 30));
+		aiPane.setOpaque(false);
 		//Constructing the non-JPanel-components
 		thomasApples = new JSpinner(new SpinnerNumberModel(10, 0, 99, 1));
 		thomasApplesL = new JLabel(applesL);
@@ -191,15 +201,15 @@ public class MenuDialog extends JDialog{
 		vOldL = new JLabel(vL);
 		thomasL = new JLabel("Thomas");
 		oldL = new JLabel(nameOld);
+		playersAI = new JCheckBox(charsAI);
+		playersAI.setToolTipText(aiTip);
 		//setting their sizes
 		Dimension d = new Dimension(80, 30);
 		thomasApples.setPreferredSize(d);
 		oldApples.setPreferredSize(d);
 		vThomas.setPreferredSize(d);
 		vOld.setPreferredSize(d);
-		//Setting font of headlines
-		thomasL.setFont(new Font("Display", Font.BOLD, 14));
-		oldL.setFont(new Font("Display", Font.BOLD, 14));
+		
 		//filling the JPanels
 		nameP1.add(thomasL);
 		nameP2.add(oldL);
@@ -227,6 +237,11 @@ public class MenuDialog extends JDialog{
 		cTable.add(c1);
 		cTable.add(c2);
 		
+		aiPane.add(playersAI);
+		//Setting font of headlines
+		thomasL.setFont(new Font("Display", Font.BOLD, 14));
+		oldL.setFont(new Font("Display", Font.BOLD, 14));
+		
 		//setting up fileOutputP's contents
 		//creating local JPanels
 		JPanel outFilesP, file1BrowseP, file2BrowseP;
@@ -240,6 +255,7 @@ public class MenuDialog extends JDialog{
 		
 		//setting up low-level components
 		outFiles = new JCheckBox(outFilesL);
+		outFiles.setToolTipText(outFilesTip);
 		file1Browse = new JButton(fileBrowse);
 		outFile1 = new JLabel(outFile1L, textIcon, JLabel.CENTER);
 		file2Browse = new JButton(fileBrowse);
@@ -267,12 +283,17 @@ public class MenuDialog extends JDialog{
 		
 		//adding components to rulesP
 		rulesP = new JPanel();
+		rulesP.setLayout(new BoxLayout(rulesP, BoxLayout.Y_AXIS));
+		rulesP.setMinimumSize(new Dimension(180, 170));
+		rulesP.setMaximumSize(new Dimension(200000, 170));
+		
+		rulesP.add(aiPane);
 		rulesP.add(cTable);
 		
 		//adding to fileOutputP
 		fileOutputP = new JPanel();
 		fileOutputP.setLayout(new BoxLayout(fileOutputP, BoxLayout.Y_AXIS));
-		fileOutputP.setMaximumSize(new Dimension(20000, 100));
+		fileOutputP.setMaximumSize(new Dimension(20000, 80));
 		
 		fileOutputP.add(outFilesP);
 		fileOutputP.add(file1BrowseP);
@@ -293,14 +314,17 @@ public class MenuDialog extends JDialog{
 		
 		cp.setLayout(new BoxLayout(cp, BoxLayout.Y_AXIS));
 		cp.add(rulesP);
-		cp.add(new JSeparator(JSeparator.HORIZONTAL));
+		cp.add(Box.createVerticalGlue());
+		JSeparator j = new JSeparator(JSeparator.HORIZONTAL);
+		j.setMaximumSize(new Dimension(20000, 4));
+		cp.add(j);
 		cp.add(fileOutputP);
 		cp.add(Box.createVerticalGlue());
 		cp.add(buttonP);
 		
 		refreshUI();
-		setMinimumSize(new Dimension(510, 280));
-		setSize(520, 350);
+		setMinimumSize(new Dimension(460, 330));
+		setSize(550, 400);
 		setVisible(true);
 		initiated = true;
 	}

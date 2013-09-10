@@ -44,7 +44,7 @@ public class MenuListener implements ActionListener{
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource() == gui.menu.start) start();
 		else if(e.getSource() == gui.menu.advanced) advanced();
-		//else if(e.getSource() == gui.menu.charsAI) charsAI();
+		else if(e.getSource() == gui.menu.md.playersAI) charsAI();
 		else if(e.getSource() == gui.menu.md.outFiles) outFiles();
 		else if(e.getSource() == gui.menu.showBoards) showSim();
 		else if(e.getSource() == gui.menu.showGraphs) showGraphs();
