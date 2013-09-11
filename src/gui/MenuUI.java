@@ -1,10 +1,8 @@
 package gui;
 
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
-import java.awt.Font;
 import java.awt.GridLayout;
 import java.io.File;
 import java.util.Locale;
@@ -14,26 +12,16 @@ import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
-import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JProgressBar;
-import javax.swing.JSeparator;
 import javax.swing.JSpinner;
-import javax.swing.JTabbedPane;
 import javax.swing.SpinnerNumberModel;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
-import javax.swing.filechooser.FileFilter;
 
 import lang.Lang_EN;
 import lang.Lang_FR;
 import lang.Lang_GER;
-
-import main.Garden;
-import main.Player;
 
 /**
  * This is the surface for setting up a new simulation.
@@ -42,8 +30,219 @@ import main.Player;
  */
 public class MenuUI extends JPanel{
 	private static final long serialVersionUID = 1L;
+	ApfelGUI gui;
+	MenuListener ml;
+	MenuDialog md;
 	
-	ApfelGUI a;
+	JFrame w;
+	JPanel buttonP, mainP, showBoardsP, showGraphsP, numberStepsP;
+	JButton advanced, start, quit;
+	JCheckBox showBoards, showGraphs;
+	JSpinner numberSteps;
+	JLabel numberStepsL, boardL, graphsL;
+	ImageIcon gameboardIcon, graphsIcon;
+	
+	public File[] file = new File[2];
+	
+	public int numberStepsN, thomasApplesN, oldApplesN, vThomasN, vOldN;
+	
+	public boolean 
+		initiated,
+		doAI,doOutFiles, doSim, doGraphs,
+		done, stepsValid, thomasApplesValid, oldApplesValid, vThomasValid, vOldValid, 
+		path1Valid, path2Valid;
+	
+	String
+		advancedL, startL, quitL,
+		showGraphsL, graphsTip, showBoardsL, boardsTip,
+		noStepsL;
+	
+	/**
+	 * Class constructor.
+	 * @param gui Later used for the construction of a <code>MenuListener</code>
+	 * @param w To set the application window's size and title
+	 */
+	public MenuUI(ApfelGUI gui, JFrame w){
+		this.gui = gui;
+		this.w = w;		
+	}
+	
+	/**
+	 * Initiates the user interface.
+	 */
+	public void initUI() {
+		if(initiated){
+			w.setSize(500, 200);
+			return;
+		}
+		//setting self up
+		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+		
+		//setting up MenuDialog
+		md = new MenuDialog(this);
+		//setting language-specific strings
+		if(Locale.getDefault() == Locale.GERMAN || Locale.getDefault() == Locale.GERMANY){
+			showGraphsL = Lang_GER.showGraphs;
+			graphsTip = Lang_GER.graphsTip;
+			showBoardsL = Lang_GER.showSim;
+			boardsTip = Lang_GER.simTip;
+			noStepsL = Lang_GER.numberStepsL;
+			quitL = Lang_GER.quit;
+			advancedL = Lang_GER.advancedDialog;
+			startL = Lang_GER.start;
+		 } else if(Locale.getDefault() == Locale.FRENCH || Locale.getDefault() == Locale.FRANCE){
+			showGraphsL = Lang_FR.showGraphs;
+			graphsTip = Lang_FR.graphsTip;
+			showBoardsL = Lang_FR.showSim;
+			boardsTip = Lang_FR.simTip;
+			noStepsL = Lang_FR.numberStepsL;
+			advancedL = Lang_FR.advancedDialog;
+			quitL = Lang_FR.quit;
+			startL = Lang_FR.start;
+		 } else {
+			showGraphsL = Lang_EN.showGraphs;
+			graphsTip = Lang_EN.graphsTip;
+			showBoardsL = Lang_EN.showSim;
+			boardsTip = Lang_EN.simTip;
+			noStepsL = Lang_EN.numberStepsL;
+			advancedL = Lang_EN.advancedDialog;
+			quitL = Lang_EN.quit;
+			startL = Lang_EN.start;	 
+		 }
+		//setting up ActionListener
+		ml = new MenuListener(gui);
+		
+		//setting up low-level components
+		gameboardIcon = new ImageIcon("/Users/daniel/workspace/Apfelkrieg_final/resources/gameboard.png", "Gameboard");
+		graphsIcon = new ImageIcon("/Users/daniel/workspace/Apfelkrieg_final/resources/graphs.png", "Graphs");
+		
+		advanced = new JButton(advancedL);
+		start = new JButton(startL);
+		quit = new JButton(quitL);
+		
+		showBoardsP = new JPanel();
+		showBoardsP.setLayout(new FlowLayout(FlowLayout.LEFT));
+		showGraphsP = new JPanel();
+		showGraphsP.setLayout(new FlowLayout(FlowLayout.LEFT));
+		numberStepsP = new JPanel();
+		numberStepsP.setLayout(new FlowLayout(FlowLayout.LEFT));
+		
+		showBoards = new JCheckBox(showBoardsL);
+		showBoards.setToolTipText(boardsTip);
+		showGraphs = new JCheckBox(showGraphsL);
+		showBoards.setToolTipText(graphsTip);
+		numberSteps = new JSpinner(new SpinnerNumberModel(21, 0, 51000000, 1));
+		numberStepsL = new JLabel(noStepsL);
+		
+		boardL = new JLabel(gameboardIcon);
+		graphsL = new JLabel(graphsIcon);
+		
+		showBoardsP.add(boardL);
+		showBoardsP.add(showBoards);
+		showGraphsP.add(graphsL);
+		showGraphsP.add(showGraphs);
+		numberStepsP.add(numberSteps);
+		numberStepsP.add(numberStepsL);
+
+		//setting up top-level components
+		buttonP = new JPanel();
+		buttonP.setLayout(new BoxLayout(buttonP, BoxLayout.X_AXIS));
+		
+		mainP = new JPanel();
+		mainP.setLayout(new GridLayout(2, 2));
+		
+		//adding to buttonP
+		buttonP.add(quit);
+		buttonP.add(Box.createHorizontalGlue());
+		buttonP.add(advanced);
+		buttonP.add(Box.createHorizontalGlue());
+		buttonP.add(start);
+		
+		//adding to mainP
+		mainP.add(showBoardsP);
+		mainP.add(numberStepsP);
+		mainP.add(showGraphsP);
+		mainP.setMaximumSize(new Dimension(2000000, 70));
+				
+		//adding to self
+		add(mainP);
+		add(Box.createVerticalGlue());
+		add(buttonP);
+		
+		//adding ActionListener to various components
+		showBoards.addActionListener(ml);
+		showGraphs.addActionListener(ml);
+		quit.addActionListener(ml);
+		advanced.addActionListener(ml);
+		start.addActionListener(ml);
+		
+		//setting up window
+		w.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		w.setVisible(true);
+		w.setSize(500, 200);
+		w.setMinimumSize(new Dimension(410, 140));	
+		initiated = true;
+	}
+	
+	/**
+	 * Checks through the following preferences: the initial number of apples in the game (which can't be higher than 100 as one board can only contain this many)
+	 * and the output-files (which need to be selected and not to be the same one).
+	 * @return <code>true</code> if all preferences are valid.
+	 */
+	public boolean checkPrefs(){
+		thomasApplesValid = oldApplesValid = path1Valid = path2Valid = true;
+		if(file[0] == null && doOutFiles){
+			md.outFile1.setForeground(Color.RED);
+			path1Valid = false;
+		}
+		if(file[1] == null && doOutFiles){
+			md.outFile2.setForeground(Color.RED);
+			path2Valid = false;
+		}
+		if(!path1Valid || !path2Valid && doOutFiles){
+			md.initUI();
+			return false;
+		}
+ 		if(doOutFiles && file[0].equals(file[1])){
+			JOptionPane.showMessageDialog(
+					w,
+					"You chose the same output-file twice.",
+					 "Identical output files",
+					 JOptionPane.WARNING_MESSAGE);
+			return false;
+		}
+ 		if(md.initiated){
+			numberStepsN = (Integer) numberSteps.getValue();
+			thomasApplesN = (Integer) md.thomasApples.getValue();
+			oldApplesN = (Integer) md.oldApples.getValue();
+			vThomasN = (Integer) md.vThomas.getValue();
+			vOldN = (Integer) md.vOld.getValue();
+ 		} else {
+ 			setDefaultValues();
+ 		}
+		
+		if(thomasApplesN + oldApplesN > 100){
+				thomasApplesValid = oldApplesValid = false;
+				JOptionPane.showMessageDialog(
+						w,
+						"<HTML>To prevent the boards from overflowing,<BR/>only a total of 100 apples are allowed.</HTML>",
+						 "Too many apples",
+						 JOptionPane.WARNING_MESSAGE);
+		}
+		if(md.initiated) md.refreshUI();
+		return (thomasApplesValid && oldApplesValid && path1Valid && path2Valid);
+	}
+	
+	public void setDefaultValues() {
+		doOutFiles = false;
+		file[0] = file[1] = null;
+		numberStepsN = (Integer) numberSteps.getValue();
+		thomasApplesN = 10;
+		oldApplesN = 5;
+		vThomasN = 1;
+		vOldN = -1;
+	}
+	/*ApfelGUI a;
 	
 	MenuListener ml;
 	JFrame w;
@@ -82,7 +281,7 @@ public class MenuUI extends JPanel{
 	 * @param gui Later used for the construction of the MenuListener.
 	 * @param window Later used to set the size and title of the window.
 	 */
-	public MenuUI(ApfelGUI gui, JFrame window) {
+	/*public MenuUI(ApfelGUI gui, JFrame window) {
 		w = window;
 		a = gui;
 		//initUI();
@@ -91,7 +290,7 @@ public class MenuUI extends JPanel{
 	/**
 	 * Sets up the user interface.
 	 */
-	public void initUI(){
+	/*public void initUI(){
 		//setting language-specific strings
 		if(Locale.getDefault() == Locale.GERMAN || Locale.getDefault() == Locale.GERMANY){
 			settings = Lang_GER.settings;
@@ -411,56 +610,11 @@ public class MenuUI extends JPanel{
 	/**
 	 * "Grays out" the components not needed if the user hasn't checked the text-file output option.
 	 */
-	public void refreshUI(){
+	/*public void refreshUI(){
 		//Enabling low-level components
 		outFile1.setEnabled(outFiles.isSelected());
 		outFile2.setEnabled(outFiles.isSelected());
 		file1Browse.setEnabled(outFiles.isSelected());
 		file2Browse.setEnabled(outFiles.isSelected());
-	}
-	
-	/**
-	 * Checks through the following preferences: the initial number of apples in the game (which can't be higher than 100 as one board can only contain this many)
-	 * and the output-files (which need to be selected and not to be the same one).
-	 * @return <code>true</code> if all preferences are valid.
-	 */
-	public boolean checkPrefs(){
-		thomasApplesValid = oldApplesValid = path1Valid = path2Valid = true;
-		if(file[0] == null && doOutFiles){
-			outFile1.setForeground(Color.RED);
-			path1Valid = false;
-		}
-		if(file[1] == null && doOutFiles){
-			outFile2.setForeground(Color.RED);
-			path2Valid = false;
-		}
-		if(!path1Valid || !path2Valid){
-			tp.setSelectedComponent(outPane);
-			return false;
-		}
- 		if(doOutFiles && file[0].equals(file[1])){
-			JOptionPane.showMessageDialog(
-					w,
-					"You chose the same output-file twice.",
-					 "Identical output files",
-					 JOptionPane.WARNING_MESSAGE);
-			return false;
-		}
-		numberStepsN = (Integer) numberSteps.getValue();
-		thomasApplesN = (Integer) thomasApples.getValue();
-		oldApplesN = (Integer) oldApples.getValue();
-		vThomasN = (Integer) vThomas.getValue();
-		vOldN = (Integer) vOld.getValue();
-		
-		if(thomasApplesN + oldApplesN > 100){
-				thomasApplesValid = oldApplesValid = false;
-				JOptionPane.showMessageDialog(
-						w,
-						"<HTML>To prevent the boards from overflowing,<BR/>only a total of 100 apples are allowed.</HTML>",
-						 "Too many apples",
-						 JOptionPane.WARNING_MESSAGE);
-		}
-		refreshUI();
-		return (thomasApplesValid && oldApplesValid && path1Valid && path2Valid);
-	}
+	}*/
 }

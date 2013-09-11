@@ -26,6 +26,7 @@ public class Lang_FR {
 	public static String simTip = "Afficher les plateaux en direct pendant la simulation";
 	//window-titles
 	public static String setUpWindow = "Nouvelle Simulation";
+	public static String advancedDialog = "Réglages avancés";
 	public static String pitchWindow = "Plateau de Guerre-des-Pommes";
 	public static String progressWindow = "Simulation progresse...";
 	public static String graphWindow = "Résultats";
@@ -38,6 +39,7 @@ public class Lang_FR {
 	public static String stepL = "Coup";
 	public static String done = "Fini!";
 	public static String nameL = "Joueur";
+	public static String cancel = "Annuller";
 	//error-messages
 	public static String appleOverflow = "<HTML>To prevent the boards from overflowing,<BR/>" +
 			"only a total of 100 apples are allowed.</HTML>";

@@ -26,21 +26,25 @@ import lang.Lang_GER;
  */
 public class ProgressUI extends JPanel{
 	private static final long serialVersionUID = 1L;
-	boolean initiated; 
+	ApfelGUI gui;
+	
 	JFrame w;
 	JPanel p;
 	JLabel l;
 	JProgressBar pb;
 	JButton quit;
+	
+	boolean initiated; 
 	int currentMoves, totalMoves;
-	String title, stepL, done, quitL;
+	String title, stepL, done, quitL, restartL;
 
 	/**
 	 * Class constructor.
 	 * @param window The application's window whose size and title will have to be set later on.
 	 */
-	public ProgressUI(JFrame window) {
-		w = window;
+	public ProgressUI(ApfelGUI gui, JFrame w) {
+		this.w = w;
+		this.gui = gui;
 	}
 	
 	/**
@@ -53,16 +57,19 @@ public class ProgressUI extends JPanel{
 			stepL = Lang_GER.stepL;
 			done = Lang_GER.done;
 			quitL = Lang_GER.quit;
+			restartL = Lang_GER.setUpWindow;
 		} else if(Locale.getDefault() == Locale.FRENCH || Locale.getDefault() == Locale.FRANCE) {
 			title = Lang_FR.progressWindow;
 			stepL = Lang_FR.stepL;
 			done = Lang_FR.done;
 			quitL = Lang_FR.quit;	
+			restartL = Lang_FR.setUpWindow;
 		} else {
 			title = Lang_EN.progressWindow;
 			stepL = Lang_EN.stepL;
 			done = Lang_EN.done;
-			quitL = Lang_EN.quit;		
+			quitL = Lang_EN.quit;	
+			restartL = Lang_EN.setUpWindow;
 		}
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		l = new JLabel();
@@ -119,5 +126,21 @@ public class ProgressUI extends JPanel{
 		this.currentMoves = currentMoves +1;
 		pb.setValue(currentMoves +1);
 		refreshUI();
+	}
+
+	public void addRestartButton() {
+		JButton restart = new JButton(restartL);
+		restart.addActionListener(new ActionListener(){
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				gui.drawUI(ApfelGUI.MENU);
+			}
+		});
+		
+		p.removeAll();
+		p.add(restart);
+		p.add(quit);
+		p.add(Box.createRigidArea(new Dimension(55, 0)));
+		validate();
 	}
 }

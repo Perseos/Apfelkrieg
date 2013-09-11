@@ -37,9 +37,9 @@ public class ApfelGUI {
 		w = new JFrame();
 		w.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		menu = new MenuUI(this, w);
-		pitch = new PitchUI(w);
-		graph = new GraphUI(w);
-		prog = new ProgressUI(w);
+		pitch = new PitchUI(this, w);
+		graph = new GraphUI(this, w);
+		prog = new ProgressUI(this, w);
 	}
 	
 	/**

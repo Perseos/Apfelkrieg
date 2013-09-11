@@ -24,6 +24,7 @@ import main.Player;
  */
 public class PitchUI extends JPanel {
 	private static final long serialVersionUID = 1L;
+	ApfelGUI gui;
 	
 	boolean tabbedView = false;
 
@@ -37,13 +38,14 @@ public class PitchUI extends JPanel {
 		
 	Garden g[];
 	Player[] c;
-	String nameOld, title;
+	String nameOld, title, restartL;
 	
 	/**
 	 * Class Constructor.
 	 * @param w The application's window. Used to set its size and title.
 	 */
-	public PitchUI(JFrame w) {
+	public PitchUI(ApfelGUI gui, JFrame w) {
+		this.gui = gui;
 		f = w;
 	}
 	
@@ -67,13 +69,16 @@ public class PitchUI extends JPanel {
 		//setting language-specific strings
 		if(Locale.getDefault() == Locale.GERMAN || Locale.getDefault() == Locale.GERMANY){
 			nameOld = Lang_GER.nameOld;
-			title = Lang_GER.pitchWindow;		
+			title = Lang_GER.pitchWindow;
+			restartL = Lang_GER.setUpWindow;
 		} else if(Locale.getDefault() == Locale.FRENCH || Locale.getDefault() == Locale.FRANCE) {
 			nameOld = Lang_FR.nameOld;
-			title = Lang_FR.pitchWindow;		
+			title = Lang_FR.pitchWindow;
+			restartL = Lang_FR.setUpWindow;
 		} else {
 			nameOld = Lang_EN.nameOld;
-			title = Lang_EN.pitchWindow;		
+			title = Lang_EN.pitchWindow;
+			restartL = Lang_EN.setUpWindow;
 		}
 		//setting up panels
 		mainP = new JPanel(new FlowLayout(FlowLayout.CENTER));
@@ -154,6 +159,18 @@ public class PitchUI extends JPanel {
 	 */
 	public void updateDice(int dice){
 		diceP.setDice(dice);
+		validate();
+	}
+
+	public void addRestartButton() {
+		JButton restart = new JButton(restartL);
+		restart.addActionListener(new ActionListener(){
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				gui.drawUI(ApfelGUI.MENU);
+			}
+		});
+		buttonP.add(restart);
 		validate();
 	}	
 }

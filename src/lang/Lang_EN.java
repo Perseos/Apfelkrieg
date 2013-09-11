@@ -17,16 +17,17 @@ public class Lang_EN {
 	public static String output = "Output";
 	public static String outFiles = "Save output";
 	public static String outFilesTip = "Saves the each moves's total number of apples in two files";
-	public static String outFile1 = "Output-file one";
-	public static String outFile2 = "Output-file two";
+	public static String outFile1 = "Thomas's output-file";
+	public static String outFile2 = "The elderly man's output-file";
 	public static String fileBrowse = "Choose file...";
 	public static String visualize = "Visualize simulation";
 	public static String showGraphs = "Graphs";
 	public static String graphsTip = "Show the results of the simulation in a total-apples-over-time-graph";
-	public static String showSim = "Show pitches";
+	public static String showSim = "Show game boards";
 	public static String simTip = "Show the boards live during the Simulation";
 	//window-titles
 	public static String setUpWindow = "New Simulation";
+	public static String advancedDialog = "Advanced Options";
 	public static String pitchWindow = "Applewar-Board";
 	public static String progressWindow = "Simulation running...";
 	public static String graphWindow = "Results";
@@ -39,6 +40,7 @@ public class Lang_EN {
 	public static String stepL = "Step";
 	public static String done = "Done!";
 	public static String nameL = "Player";
+	public static String cancel = "Cancel";
 	//error-messages
 	public static String appleOverflow = "<HTML>To prevent the boards from overflowing,<BR/>" +
 			"only a total of 100 apples are allowed.</HTML>";

@@ -26,6 +26,7 @@ public class Lang_GER {
 	public static String simTip = "Während Simulation live Spielfelder anzeigen";
 	//window-titles
 	public static String setUpWindow = "Neue Simulation";
+	public static String advancedDialog = "Erweiterte Einstellungen";
 	public static String pitchWindow = "Apfelkrieg-Spielfeld";
 	public static String progressWindow = "Simulation läuft...";
 	public static String graphWindow = "Auswertung";
@@ -37,6 +38,7 @@ public class Lang_GER {
 	public static String start = "Start";
 	public static String stepL = "Schritt";
 	public static String done = "Fertig!";
+	public static String cancel = "Abbrechen";
 	//error-messages
 	public static String appleOverflow = "<HTML>Um ein Überlaufen der Spielfelder zu verhindern,<BR/>" +
 			"darf die Gesamtanzahl an Äpfel 100 nicht übersteigen.</HTML>";
